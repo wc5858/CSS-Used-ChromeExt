@@ -1,3 +1,5 @@
+修改：改成了以对象的形式返回结果、可以通过getInnerStyle选择是否遍历子元素的样式
+
 # CSS-Used
 
 ![CSS Used](http://ww1.sinaimg.cn/large/4e71f332gw1et7h243kgqj203k03ka9v.jpg)

@@ -5,9 +5,9 @@ const convUrlToAbs = require('./convUrlToAbs');
 function makeRequest(url) {
   var result = {};
   result.url = url;
-  chrome.runtime.sendMessage({
-    status: 'Getting : ' + url
-  });
+  // console.log({
+  //   status: 'Getting : ' + url
+  // });
   return new Promise(function (resolve, reject) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'arraybuffer';
@@ -27,9 +27,9 @@ function makeRequest(url) {
         result.status = this.status;
         result.statusText = this.statusText;
         resolve(result);
-        chrome.runtime.sendMessage({
-          status: 'Parsing : ' + url
-        });
+        // console.log({
+        //   status: 'Parsing : ' + url
+        // });
       } else {
         result.cssraw = "";
         result.status = this.status;

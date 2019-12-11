@@ -17,14 +17,13 @@ const PseudoClass = '((-(webkit|moz|ms|o)-)?(full-screen|fullscreen))|-o-prefocu
   REG2=new RegExp('\\((:(' + PseudoClass + ')|::?(' + PseudoElement + '))+\\)', 'ig'),
   REG3=new RegExp('(:(' + PseudoClass + ')|::?(' + PseudoElement + '))+', 'ig');
 
-function filterRules($0, objCss, taskTimerRecord) {
+function filterRules($0, objCss, taskTimerRecord, getInnerStyle) {
   var promises = [];
   var matched = [];
   var keyFramUsed = [];
   var fontFaceUsed = [];
 
-  var domlist = [];
-  domlist.push($0);
+  var domlist = [$0];
   Array.prototype.forEach.call($0.querySelectorAll('*'), function (e) {
     domlist.push(e);
   });
@@ -34,23 +33,21 @@ function filterRules($0, objCss, taskTimerRecord) {
     objCss.normRule.forEach(function (rule, idx) {
       promises.push(new Promise(function (res, rej) {
         var timer = setTimeout(function () {
-          if (idx % 1000 === 0) {
-            chrome.runtime.sendMessage({
-              dom: domlist.length - 1,
-              rule: objCss.normRule.length,
-              rulenow: idx
-            });
-          }
+          // if (idx % 1000 === 0) {
+          //   chrome.runtime.sendMessage({
+          //     dom: domlist.length - 1,
+          //     rule: objCss.normRule.length,
+          //     rulenow: idx
+          //   });
+          // }
 
           if (typeof rule === 'string') {
             res(rule);
             return;
           } else {
             var selMatched = [];
-            var arrSel = rule.selectors.filter(function (v, i, self) {
-              return self.indexOf(v) === i;
-            });
-            arrSel.forEach(function (sel, i) {
+            var arrSel = [...rule.selectors];
+            arrSel.forEach(function (sel) {
               if (selMatched.indexOf(sel) !== -1) {
                 return;
               }
@@ -58,7 +55,7 @@ function filterRules($0, objCss, taskTimerRecord) {
               // but wont apply now 
               // eg. :active{xxx}
               // only works when clicked on and actived
-              if (sel.length<MaxPossiblePseudoLength && sel.match(REG0)){
+              if (sel.length < MaxPossiblePseudoLength && sel.match(REG0)){
                 selMatched.push(sel);
               } else {
                 let count = [];
@@ -74,7 +71,7 @@ function filterRules($0, objCss, taskTimerRecord) {
                 //   count.push(e);
                 // }
                 try {
-                  if ($0.matches(replacedSel) || $0.querySelectorAll(replacedSel).length !== 0) {
+                  if ($0.matches(replacedSel) || (getInnerStyle && $0.querySelectorAll(replacedSel).length !== 0)) {
                     selMatched.push(sel);
                   }
                 } catch (e) {

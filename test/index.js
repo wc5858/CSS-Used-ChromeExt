@@ -1,22 +1,16 @@
-import expected from './expected.js'
-import getCssUsed from '../src/main.js'
+import expected from "./expected.js";
+import getCssUsed from "../src/main.js";
 
-window.chrome = {
-  runtime: {
-    sendMessage: function (obj) {
-      if(obj.css){
-        if(obj.css===expected(location.port)){
-          console.log('Test Passed.');
-        }else{
-          console.log('Test fail.')
-          console.dir({
-            expect:expected(location.port),
-            acture:obj.css
-          })
-        }
-      }
-    }
+getCssUsed(document.documentElement).then(res => {
+  if (res.success && res.css === expected(location.port)) {
+    console.log("Test Passed.");
+  } else {
+    console.log("Test fail.");
+    console.dir({
+      expect: expected(location.port),
+      actual: res.css
+    });
   }
-}
+})
 
-getCssUsed(document.documentElement);
+getCssUsed(document.querySelectorAll('p')[0]).then(r => console.log(r.css))
