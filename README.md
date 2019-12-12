@@ -1,6 +1,9 @@
 修改：改成了以对象的形式返回结果、可以通过getInnerStyle选择是否遍历子元素的样式
+
 修改：使用styleSheet对象而不是用request请求获取样式表，因为在selenium中执行脚本，执行请求时会有安全性问题，此时styleSheet内容会与原始样式表有一定差异，但是等价的（浏览器做了格式化）
+
 fix：去掉了一些不必要的Promise，优化部分代码
+
 bugix：判断animation-name的逻辑存在一定问题，做了优化（经过styleSheet格式化后，animation-name一定是animation属性的最后一个值，但原先固定取第一个的逻辑是有问题的）
 
 # CSS-Used
