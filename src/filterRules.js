@@ -94,9 +94,8 @@ function filterRules($0, objCss, taskTimerRecord, getInnerStyle) {
               res(cssText);
               rule.nodes.forEach(function (ele, idx) {
                 if (ele.prop && ele.prop.match(/^(-(webkit|moz|ms|o)-)?animation(-name)?$/i) !== null) {
-                  keyFramUsed = keyFramUsed.concat(ele.value.split(/ *, */).map(function (ele) {
-                    return ele.split(' ')[0];
-                  }));
+                  // 原代码中判断keyframes的方法是有问题的
+                  keyFramUsed = keyFramUsed.concat(ele.value.split(/ *, */).map(i => i.split(' ').pop()));
                 };
               });
               let fontfamilyOfRule = cssHelper.textToCss(cssText);

@@ -7,7 +7,7 @@
 html{
   height: 100%;
 }
-A{background:url(./logo.jpg);background-size:100%;animation:teatnamekey;}
+A{background:url(./logo.jpg);background-size:100%;animation:teatnamekey 1s;}
 BANNER{}
 @-webkit-keyframes teatnamekey{
   0%{width:10px;}
@@ -28,13 +28,13 @@ BANNER{}
   za:nth-of-type(3n){border-right:1px solid #dcdddd;}
   za:nth-of-type(6n){border-right:none;}
 }
+@media print {
+  i { font-size: 10pt; }
+}
 @import 'skin.css';
 
 /*body,.S_page{background-image:url('http://ww3.sinaimg.cn/woriginal/4e71f332gw1e3r8b7kep9j.jpg');background-repeat:repeat;background-attachment:fixed;background-position:center top;}*/
 
 body{
     font-family: "WBswficon";
-}
-@media print {
-  i { font-size: 10pt; }
 }

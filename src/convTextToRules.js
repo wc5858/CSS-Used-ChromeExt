@@ -1,18 +1,15 @@
-const postcss = require('postcss');
-const safe = require('postcss-safe-parser');
+const postcss = require("postcss");
+const safe = require("postcss-safe-parser");
 
-function convTextToRules(styleContent, href) {
-  return new Promise((resolve, reject) => {
-    postcss().process(styleContent, {
-      from: undefined,
-      parser: safe
-    }).then(result => {
-      if (href) {
-        result.root.nodes.href = href;
-      };
-      resolve(result.root.nodes);
-    });
+const convTextToRules = async ({ cssraw, href, media }) => {
+  const res = await postcss().process(cssraw, {
+    from: undefined,
+    parser: safe
   });
-}
+  const { nodes } = res.root;
+  nodes.href = href;
+  nodes.media = media;
+  return nodes;
+};
 
 module.exports = convTextToRules;
